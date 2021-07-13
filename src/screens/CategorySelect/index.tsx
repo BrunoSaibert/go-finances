@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { Button } from "../../components/Form/Button";
 
@@ -37,19 +38,23 @@ export function CategorySelect({
         style={{ flex: 1, width: "100%" }}
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
-          <S.Category
-            onPress={() => handleCategorySelect(item)}
-            isActive={category.key === item.key}
-          >
-            <S.Icon name={item.icon} />
-            <S.Name>{item.name}</S.Name>
-          </S.Category>
+          <GestureHandlerRootView>
+            <S.Category
+              onPress={() => handleCategorySelect(item)}
+              isActive={category.key === item.key}
+            >
+              <S.Icon name={item.icon} />
+              <S.Name>{item.name}</S.Name>
+            </S.Category>
+          </GestureHandlerRootView>
         )}
         ItemSeparatorComponent={() => <S.Separator />}
       />
 
       <S.Footer>
-        <Button title="Selecionar" onPress={closeSelectCategory} />
+        <GestureHandlerRootView>
+          <Button title="Selecionar" onPress={closeSelectCategory} />
+        </GestureHandlerRootView>
       </S.Footer>
     </S.Container>
   );
