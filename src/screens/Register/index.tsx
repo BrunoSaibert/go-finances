@@ -14,6 +14,8 @@ import { TransactionTypeButton } from "../../components/Form/TransactionTypeButt
 
 import { CategorySelect } from "../../screens/CategorySelect";
 
+import { useAuth } from "../../hooks/auth";
+
 import * as S from "./styles";
 
 interface FormData {
@@ -39,6 +41,8 @@ export function Register() {
     key: "category",
     name: "Categoria",
   });
+
+  const { user } = useAuth();
 
   const {
     control,
@@ -79,7 +83,7 @@ export function Register() {
     };
 
     try {
-      const dataKey = "@gofinances:transactions";
+      const dataKey = `@gofinances:transactions_@user:${user.name}`;
 
       const oldData = await AsyncStorage.getItem(dataKey);
       const currentData = oldData ? JSON.parse(oldData) : [];
