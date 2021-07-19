@@ -50,7 +50,7 @@ Para o desenvolvimento utilizamos **React Native**, **Expo** e **TypeScript**.
 ## [](https://github.com/BrunoSaibert/go-finances#-%EF%B8%8F-funcionalidades) ⚙️ Funcionalidades
 
 - Logar com uma conta Google ou Apple (apenas em iOS)
-- Casdastrar entradas e saídes financeiras
+- Cadastrar entradas e saídes financeiras
 - Listar cards com entradas, saídes e o total
 - Listar histórico de entradas e saídes financeiras
 - Apresentar gráfico de resumo com as categorias de saídas financeiras
