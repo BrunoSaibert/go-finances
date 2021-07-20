@@ -7,7 +7,8 @@ import React, {
 } from "react";
 import * as Google from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { useStorageData } from "./storage";
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
@@ -45,6 +46,8 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const [userStorageLoading, setUserStorageLoading] = useState(true);
 
+  const { setItem, getItem, removeItem } = useStorageData();
+
   async function signInWithGoogle() {
     try {
       const RESPONSE_TYPE = "token";
@@ -70,7 +73,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         };
 
         setUser(userLogged);
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+        await setItem(userStorageKey, userLogged);
       }
     } catch (error) {
       throw new Error(error);
@@ -98,7 +101,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         };
 
         setUser(userLogged);
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+        await setItem(userStorageKey, userLogged);
       }
     } catch (error) {
       throw new Error(error);
@@ -107,12 +110,12 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOut() {
     setUser({} as User);
-    await AsyncStorage.removeItem(userStorageKey);
+    await removeItem(userStorageKey);
   }
 
   useEffect(() => {
     async function loadUserStorageData() {
-      const userStorage = await AsyncStorage.getItem(userStorageKey);
+      const userStorage = await getItem(userStorageKey);
 
       if (userStorage) {
         const userLogged = JSON.parse(userStorage) as User;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { useTheme } from "styled-components";
 import { useAuth } from "../../hooks/auth";
+import { useStorageData } from "../../hooks/storage";
 
 import { HighlightCard } from "../../components/HighlightCard";
 import {
@@ -38,6 +38,7 @@ export function Dashboard() {
 
   const theme = useTheme();
   const { user, signOut } = useAuth();
+  const { getItem } = useStorageData();
 
   function getLastTransactionDate(
     collection: DataListProps[],
@@ -69,7 +70,7 @@ export function Dashboard() {
   async function loadingTransactions() {
     const dataKey = `@gofinances:transactions_@user:${user.name}`;
 
-    const response = await AsyncStorage.getItem(dataKey);
+    const response = await getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
     let entriesTotal = 0;

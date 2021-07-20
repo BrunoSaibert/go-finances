@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { VictoryPie } from "victory-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { addMonths, subMonths, format } from "date-fns";
@@ -10,6 +9,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { useTheme } from "styled-components";
 import { useAuth } from "../../hooks/auth";
+import { useStorageData } from "../../hooks/storage";
 
 import { HistoryCard } from "../../components/HistoryCard";
 import { TransactionCardProps } from "../../components/TransactionCard";
@@ -36,6 +36,7 @@ export function Resume() {
 
   const theme = useTheme();
   const { user } = useAuth();
+  const { getItem } = useStorageData();
 
   function handleDateChange(action: "next" | "prev") {
     if (action === "next") {
@@ -50,7 +51,7 @@ export function Resume() {
 
     const dataKey = `@gofinances:transactions_@user:${user.name}`;
 
-    const response = await AsyncStorage.getItem(dataKey);
+    const response = await getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
     const expensives = responseFormatted.filter(

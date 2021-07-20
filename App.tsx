@@ -17,6 +17,7 @@ import theme from "./src/global/styles/theme";
 
 import { Routes } from "./src/routes";
 
+import { StorageProvider } from "./src/hooks/storage";
 import { AuthProvider, useAuth } from "./src/hooks/auth";
 
 export default function App() {
@@ -39,10 +40,11 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
+      <StorageProvider>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </StorageProvider>
     </ThemeProvider>
   );
 }
